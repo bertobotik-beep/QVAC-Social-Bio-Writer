@@ -32,8 +32,10 @@ function isGrounded(text, facts) {
   if (words.length === 0) return true;
   const lower = text.toLowerCase();
   const hits = words.filter((w) => lower.includes(w));
-  // require at least a reasonable share of the given facts to actually show up
-  return hits.length >= Math.min(1, words.length) && hits.length / words.length >= 0.3;
+  // Require at least a reasonable share (30%) of the given fact keywords to
+  // actually show up in the bio. Since `hits` is a whole number, this ratio
+  // alone already implies at least one hit, so no separate minimum is needed.
+  return hits.length / words.length >= 0.3;
 }
 
 const FALLBACK = (facts) => `${facts} — that's me in a nutshell.`;
